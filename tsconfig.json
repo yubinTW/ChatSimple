@@ -7,6 +7,7 @@
         "moduleResolution": "Node",
         "sourceMap": true,
         "outDir": "./out",
+        "rootDir": "./src",
         "baseUrl": ".",
     },
     "exclude": [
