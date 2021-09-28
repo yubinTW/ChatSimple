@@ -3,16 +3,16 @@ import * as path from "path";
 import * as http from "http";
 import * as socketIo from "socket.io";
 
-interface Message {
+type Message = {
     from: string;
     text: string;
 }
 
 class Server {
 
-    public app: any;
-    private server: any;
-    private io: any;
+    private app: express.Express;
+    private server: http.Server;
+    private io: socketIo.Server;
 
     constructor(port: number) {
         this.createApp();
@@ -34,19 +34,18 @@ class Server {
         this.io = require('socket.io')(this.server);
     }
 
-    public setRoute(): any{
-       this. app.get("/", (req: any, res: any) => {
+    private setRoute(): any {
+        this.app.get("/", (req: any, res: any) => {
             res.sendFile(path.join(__dirname, "../view/index.html"));
         });
     }
 
     private listen(port: number): void {
         this.server.listen(port, () => {
-           // console.log('server listening on port %s', this.port);
+            console.log('server listening on port %s', port);
         })
         this.io.on('connection', (socket: any) => {
             console.log('Connected client on port %s.', port);
-
 
             socket.on("chat message", (msg: Message) => {
                 this.io.emit('chat message', msg);
@@ -57,6 +56,11 @@ class Server {
                 console.log('Client disconnected');
             })
         })
+    }
+
+    public close() {
+        this.io.close()
+        this.server.close()
     }
 
 }
