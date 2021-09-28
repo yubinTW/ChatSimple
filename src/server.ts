@@ -12,16 +12,14 @@ class Server {
 
     public app: any;
     private server: any;
-    private port: number;
     private io: any;
 
-    constructor() {
-        this.port = 3000;
+    constructor(port: number) {
         this.createApp();
         this.createServer();
         this.createSocket();
         this.setRoute();
-        this.listen();
+        this.listen(port);
     }
 
     private createApp(): void {
@@ -42,12 +40,12 @@ class Server {
         });
     }
 
-    private listen(): void {
-        this.server.listen(this.port, () => {
+    private listen(port: number): void {
+        this.server.listen(port, () => {
            // console.log('server listening on port %s', this.port);
         })
         this.io.on('connection', (socket: any) => {
-            console.log('Connected client on port %s.', this.port);
+            console.log('Connected client on port %s.', port);
 
 
             socket.on("chat message", (msg: any) => {
@@ -63,5 +61,4 @@ class Server {
 
 }
 
-let server = new Server();
-export = server;
+export { Server }
