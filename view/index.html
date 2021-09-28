@@ -24,14 +24,18 @@
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (input.value && who.value) {
-                var str = who.value + " : " + input.value;
-                socket.emit('chat message', str);
+                const msg = {
+                    from: who.value,
+                    text: input.value
+                }
+                socket.emit('chat message', msg);
                 input.value = '';
             }
         });
         socket.on('chat message', function (msg) {
+            const message = `${msg.from}: ${msg.text}`
             var item = document.createElement('li');
-            item.textContent = msg;
+            item.textContent = message;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });

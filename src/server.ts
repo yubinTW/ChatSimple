@@ -48,7 +48,7 @@ class Server {
             console.log('Connected client on port %s.', port);
 
 
-            socket.on("chat message", (msg: any) => {
+            socket.on("chat message", (msg: Message) => {
                 this.io.emit('chat message', msg);
                 console.log(msg);
             })
