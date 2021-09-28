@@ -38,7 +38,7 @@ class Server {
 
     public setRoute(): any{
        this. app.get("/", (req: any, res: any) => {
-            res.sendFile(path.resolve("../Chat/view/index.html"));
+            res.sendFile(path.join(__dirname, "../view/index.html"));
         });
     }
 
